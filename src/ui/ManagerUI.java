@@ -52,17 +52,21 @@ public class ManagerUI extends JFrame {
 	private JPanel contentPane;
 	private static InforPanel inforPanel;
 	private static boolean flag = false;//判断客户面板是否打开
+	//控制车辆进出界面
 	private JTextField textField1_1;//获取车牌号
 	private JTextField textField1_2;//获取车位
-	private JTextField textField2_1;//
-	private JTextField textField2_2;
-	private JTextField textField2_3;
-	private JTextField textField2_4;
-	private JTextField textField3_1;
-	private JPasswordField passwordField3_1;
-	private JPasswordField passwordField3_2;
-	private JTextField textField3_2;
-	private JTextField textField4_1;
+	//增加会员
+	private JTextField textField2_1;//得到会员名
+	private JTextField textField2_2;//得到车牌号
+	private JTextField textField2_3;//联系方式
+	private JTextField textField2_4;//车位编号
+	//增删员工
+	private JTextField textField3_1;//工号
+	private JPasswordField passwordField3_1;//密码
+	private JPasswordField passwordField3_2;//确认密码
+	private JTextField textField3_2;//姓名
+	//修改员工权限
+	private JTextField textField4_1;//员工号
 	private DefaultTableModel dtm;
 	private JTable table;
 	/**
@@ -227,7 +231,7 @@ public class ManagerUI extends JFrame {
 		button2_1.setBounds(151, 231, 113, 27);
 		panel1_2.add(button2_1);
 		
-		if(power == 0) {
+		//if(power == 0) {
 			JMenu menu2 = new JMenu("管理员工");
 			menuBar.add(menu2);
 			
@@ -288,7 +292,7 @@ public class ManagerUI extends JFrame {
 			button3_2.setBounds(216, 246, 113, 27);
 			panel1_3.add(button3_2);
 			
-		}
+	//	}
 		
 		JPanel panel1_4 = new JPanel();
 		panel1.add(panel1_4, "p1_4");
