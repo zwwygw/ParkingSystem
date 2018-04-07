@@ -1,11 +1,30 @@
-﻿package table;
+﻿/**
+* <p>Title: Parking.java<／p>
+* <p>Description: 对应t_parking表的VO<／p>
+* <p>Copyright: Copyright (c) 2018年4月4日<／p>
+* <p>Company: CSU<／p>
+* @author ZWW
+* @date 2018年4月4日
+* @version 1.0
+*/
+package pers.table;
 
+/**
+ * @ClassName Parking
+ * @Description 对应t_parking表的VO
+ * @author ZWW
+ * @date   2018年4月4日下午5:22:09
+ */
 public class Parking {
-   private String id;//车位编号
-   private String state;//车位状态
-   private String type;//车位类型
+   /** 车位编号*/
+private String id;
+   /** 车位状态*/
+private String state;
+   /** 车位类型*/
+private String type;
    private float  t_price;//临时价(小时)  
-   private float  m_price;//会员价(月）  
+   private float  m_price;//会员价(月）
+   
 public String getId() {
 	return id;
 }

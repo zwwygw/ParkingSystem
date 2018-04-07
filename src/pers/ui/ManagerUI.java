@@ -8,6 +8,8 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import dao.ParkingDao;
+import dao.imp.ParkingDaoImp;
 import data.ConnOra;
 
 import javax.swing.JMenuBar;
@@ -114,8 +116,9 @@ public class ManagerUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (!isFlag()) {
-					ConnOra connOra = new ConnOra();
-					inforPanel = new InforPanel(string, connOra.parkingNum("临时"));
+					ParkingDao pDao = null;
+					pDao = new ParkingDaoImp();
+					inforPanel = new InforPanel(string, pDao.parkingNum("临时"));
 					setFlag(true);
 					inforPanel.setVisible(isFlag());
 					JOptionPane.showMessageDialog(null, "客户面板已打开", "提示", JOptionPane.INFORMATION_MESSAGE);
@@ -169,6 +172,11 @@ public class ManagerUI extends JFrame {
 		panel1_1.add(label1_2);
 		
 		JButton button1_1 = new JButton("进  入");
+		button1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+					
+			}
+		});
 		button1_1.setFont(new Font("宋体", Font.PLAIN, 30));
 		button1_1.setBounds(63, 232, 144, 37);
 		panel1_1.add(button1_1);

@@ -1,12 +1,13 @@
-package dao.imp;
+package pers.dao.imp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dao.ParkingDao;
 import data.ConnOra;
+import pers.dao.ParkingDao;
+
 
 /**
  * @ClassName ParkingDaoImp

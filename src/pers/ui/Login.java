@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.UIManager;
 
+import dao.ManagerDao;
 import dao.imp.ManagerDaoImp;
 
 import javax.swing.JTextField;
@@ -83,8 +84,9 @@ public class Login {
 			
 				// System.out.println(passwordField.getPassword().toString());
 				HashMap<String, Object> hashMap = new HashMap<String, Object>();
-				ManagerDaoImp mImp = new ManagerDaoImp();
-				hashMap = mImp.check(textField1_1.getText(), inputPassword);
+				ManagerDao mDao = null;
+				mDao = new ManagerDaoImp();
+				hashMap = mDao.check(textField1_1.getText(), inputPassword);
 				flag = (boolean) hashMap.get("flag");
 				power = (int) hashMap.get("power");
 				if (flag == true) {

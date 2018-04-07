@@ -1,4 +1,4 @@
-package dao;
+package pers.dao;
 /**
  * @ClassName ParkingDao
  * @Description 对车位的数据操作接口
