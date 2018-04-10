@@ -1,14 +1,16 @@
-package ui;
+package pers.ui;
 
-import data.ConnOra;
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.UIManager;
-
-import dao.ManagerDao;
-import dao.imp.ManagerDaoImp;
+import pers.dao.InforParkingDao;
+import pers.dao.ManagerDao;
+import pers.dao.imp.InforParkingDaoImp;
+import pers.dao.imp.ManagerDaoImp;
+import pers.table.InforParking;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -91,7 +93,24 @@ public class Login {
 				power = (int) hashMap.get("power");
 				if (flag == true) {
 					window.frame.dispose();
-					new ManagerUI(textField1_1.getText(),power).setVisible(true);
+					String mid = textField1_1.getText();
+					ManagerUI mUi = null;
+					mUi = new ManagerUI(mid,power);
+					
+					mUi.setVisible(true);
+					InforParkingDao iDao = new InforParkingDaoImp();
+					java.util.Date  date0=new java.util.Date();
+					java.sql.Date  data1=new java.sql.Date(date0.getTime());				
+					ManagerUI.ennum= iDao.enOrexnum(data1, "en_num");
+					ManagerUI.exnum= iDao.enOrexnum(data1, "ex_num");
+					ManagerUI.fee = iDao.getfee(data1);
+					
+					InforParking iParking = new InforParking(ManagerUI.ennum,ManagerUI.exnum,ManagerUI.fee,mid);
+					System.out.println(Integer.toString(ManagerUI.ennum)); 
+					System.out.println(Integer.toString(ManagerUI.exnum)); 
+					System.out.println(mid); 
+					System.out.println(Float.toString(ManagerUI.fee)); 
+					iDao.inUpInfor(iParking);
 				}else {
 					JOptionPane.showMessageDialog(null, "密码或账号错误！", "提示", JOptionPane.ERROR_MESSAGE);
 					passwordField1_1.setText("");

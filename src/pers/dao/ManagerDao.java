@@ -1,4 +1,4 @@
-package dao;
+package pers.dao;
 
 import java.util.HashMap;
 /**

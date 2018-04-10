@@ -21,6 +21,12 @@ public class Manager {
 	private String pwd;//密码
 	private String name;//姓名
 	
+	public Manager(int p,String id,String pwd,String name) {
+		this.id = id;
+		this.name = name;
+		this.pwd = pwd;
+		this.power = p;
+	}
 	/**
 	 * @Description 获取工号值
 	 * @return String

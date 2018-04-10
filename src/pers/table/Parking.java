@@ -22,8 +22,18 @@ private String id;
 private String state;
    /** 车位类型*/
 private String type;
-   private float  t_price;//临时价(小时)  
-   private float  m_price;//会员价(月）
+   /** 临时价(小时)  */
+private float  t_price;  
+   /** 会员价(月）*/
+private float  m_price;
+
+   public Parking(String id,String state,String type,float t_price,float m_price) {
+	   this.id=id;
+	   this.type = type;
+	   this.m_price = m_price;
+	   this.t_price = t_price;
+	   this.state = state;
+   }
    
 public String getId() {
 	return id;

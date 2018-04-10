@@ -1,4 +1,4 @@
-package ui;
+package pers.ui;
 
 import java.awt.EventQueue;
 
@@ -8,9 +8,11 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import dao.ParkingDao;
-import dao.imp.ParkingDaoImp;
-import data.ConnOra;
+import pers.dao.ParkingDao;
+import pers.dao.TemporaryFeeDao;
+import pers.dao.imp.ParkingDaoImp;
+import pers.dao.imp.TemporaryDaoImp;
+import pers.table.InforParking;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -20,7 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Panel;
 import java.awt.CardLayout;
-import java.awt.Color;
+
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -30,20 +32,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
-import java.awt.ScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JDesktopPane;
-import javax.swing.JTree;
-import javax.swing.JEditorPane;
-import javax.swing.JFormattedTextField;
-import javax.swing.JToggleButton;
-import javax.swing.JCheckBox;
-import javax.swing.JSeparator;
-import javax.swing.JSlider;
-import javax.swing.JScrollBar;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
+
 
 public class ManagerUI extends JFrame {
 
@@ -51,6 +40,10 @@ public class ManagerUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static int ennum = 1;
+	public static int exnum = 1;
+	public static float fee = 0;
+	public InforParking iParking = null;
 	private JPanel contentPane;
 	private static InforPanel inforPanel;
 	private static boolean flag = false;//判断客户面板是否打开
@@ -103,7 +96,8 @@ public class ManagerUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+        
+	//	iParking = new InforParking(power, power, power, m_id)
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 536, 26);
 		contentPane.add(menuBar);
@@ -174,7 +168,8 @@ public class ManagerUI extends JFrame {
 		JButton button1_1 = new JButton("进  入");
 		button1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-					
+				TemporaryFeeDao tDao = new TemporaryDaoImp();
+				tDao.add(textField1_1.getText(), textField1_2.getText());
 			}
 		});
 		button1_1.setFont(new Font("宋体", Font.PLAIN, 30));
@@ -396,5 +391,29 @@ public class ManagerUI extends JFrame {
 
 	public static void setFlag(boolean flag) {
 		ManagerUI.flag = flag;
+	}
+
+	public static int getEnnum() {
+		return ennum;
+	}
+
+	public static void setEnnum(int ennum) {
+		ManagerUI.ennum = ennum;
+	}
+
+	public static int getExnum() {
+		return exnum;
+	}
+
+	public static void setExnum(int exnum) {
+		ManagerUI.exnum = exnum;
+	}
+
+	public static float getFee() {
+		return fee;
+	}
+
+	public static void setFee(float fee) {
+		ManagerUI.fee = fee;
 	}
 }

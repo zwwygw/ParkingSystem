@@ -5,42 +5,39 @@ connect c##U_32/zww0902150232;
 --管理员表
 create table t_manager
 (
-  id    varchar2(20),--工号
+  id    varchar2(10),--工号
   pwd   varchar2(20),--密码
   name  varchar2(20),--姓名
   power number(1),--权限
   constraint pk_m_id primary key(id)
 );
 
---alter table t_manager rename constraint pk_id to pk_m_id;
-insert into t_manager values('admin','123456','admin',0);
-insert into t_manager values('001','123456','001',0);
 --会员收费表
 create table t_MemberFee
 (
   s_num     varchar2(20),--流水号（生效期年月日+有效期年月日+车位编号）
-  id        varchar2(20),--车位编号
-  p_num     varchar2(10),--车牌号
+  id        varchar2(5),--车位编号
+  p_num     varchar2(15),--车牌号
   name      varchar2(20),--姓名
-  tel       varchar2(20),--电话
+  tel       varchar2(15),--电话
   eff_date  date,--生效期
   ex_date   date,--有效期
   fee       number(6,2),--收费
-  m_id      varchar2(20),--收费员工工号
+  m_id      varchar2(10),--收费员工工号
   constraint pk_mf_s_num primary key(s_num),
   constraint fk_mf_id  foreign key(m_id) references t_manager(id)
 );
---alter table t_MemberFee rename constraint fk_m_id to fk_mf_id;
+
 --临时用户收费表
 create table t_TempFee
 (
   s_num   varchar2(20),--流水号(进入时间年月日+车位编号+进入数)，
-  id      varchar2(20),--车位编号
-  p_num   varchar2(10),--车牌号
+  id      varchar2(5),--车位编号
+  p_num   varchar2(15),--车牌号
   en_time date,--进入时间
   ex_time date,--退出时间
   fee     number(6,2),--收费
-  m_id    varchar2(20),--收费员
+  m_id    varchar2(10),--收费员
   constraint pk_tf_s_num primary key(s_num),
   constraint fk_tf_m_id  foreign key(m_id) references t_manager(id)
 );
@@ -52,10 +49,64 @@ create table t_parking
   type    varchar2(10),--类型
   t_price number(6,2),--临时单价(¥/h)
   m_price number(6,2),--会员单价(¥/m)
-  constraint pk_p_id primary key(id)
+  constraint pk_p_id primary key(id),
+  constraint c_p check((state='空'or state='占')and (type='临时'or type ='会员'))
 );
+--停车场日常信息表
+create table t_infor_parking
+(
+  today  date,
+  en_num number(5),
+  ex_num number(5),
+  fee    number(8,2),
+  m_id   varchar2(10),
+  constraint pk_to primary key(today),
+  constraint fk_inf_m_id  foreign key(m_id) references t_manager(id)
+);
+create or replace trigger tg_tInforP 
+    after insert or delete or update on t_tempfee
+           for each row 
+           begin
+              if inserting then
+                 MERGE INTO t_tempfee A USING (select today,en_num,ex_num from t_infor_parking) B ON(B)  
+                 WHEN MATCHED THEN  
+                     [UPDATE sql]  
+                 WHEN NOT MATCHED THEN  
+                     [INSERT sql]  
+              end if;
+              if deleting then 
+                 update t_stud_232 set sum_evaluation=sum_evaluation-:old.score where sno=:old.sno;
+              end if;
+              if updating then 
+                 update t_stud_232 set sum_evaluation=sum_evaluation-:old.score+:new.score where sno=:new.sno;
+              end if;
+           end;
+ MERGE INTO t_infor_parking A USING (select to_date(sysdate) as today from dual) B ON(A.today=B.today)  
+                 WHEN MATCHED THEN
+                     update set ex_num=1 where A.today=B.today
+                 WHEN NOT MATCHED THEN  
+                     INSERT(A.today) values(B.today)
+        
+
+--alter table t_manager rename column id to d_id;
+--alter table t_manager add id varchar2(10);
+--update t_manager set id=trim(d_id);
+--alter table t_manager drop column d_id;
+--alter table t_manager drop constraint  pk_m_id;
+--alter table t_manager rename constraint pk_id to pk_m_id;
+insert into t_manager values('admin','123456','马化腾',0);
+insert into t_manager values('001','123456','李子明',1);
+--alter table t_MemberFee rename constraint fk_m_id to fk_mf_id;
+alter table t_parking
+ add   constraint c_p check((state='空'or state='占')and (type='临时'or type ='会员'));
+alter table t_parking drop constraint c_p;
+col s_num format a10
+col id format a10
+col m_id format a10
+col p_num format a10
 insert into t_parking values('A1','空','临时',5,500);
 insert into t_parking values('A2','空','会员',5,500);
+insert into t_parking values('A3','空','临时',5,500);
 select count(*)count from t_parking where type='临时';
 2018-03-19 00:02:21
 insert into t_TempFee values(?,?,?,?,?,?,?);
@@ -63,5 +114,17 @@ insert into t_MemberFee values(?,?,?,?,?,?,?,?,?);
 update t_TempFee set ex_time=? where p_num = ? and ex_time=null;
 insert into t_TempFee values('20180324A10001','A1','贵C-U8888',to_date(sysdate),null,0,'001');	
 insert into t_TempFee values('20180324A10001','A1','贵C-U8888',current_timestamp(5),null,0,'001');	
-insert into t_TempFee values('20180324A10002','A1','贵C-U8888',to_date('2018-03-24 23:15:40','yyyy-mm-dd hh24:mi:ss'),null,0,'001');	
+insert from t_TempFee where id='A1';
+insert into t_TempFee values('20180324A10002','A1','贵C-U8888',to_date('2018-03-24 23:15:40','yyyy-mm-dd hh24:mi:ss'),null,0,'001');  
+delete t_TempFee set ex_time=to_date('2018-03-24 23:15:50','yyyy-mm-dd hh24:mi:ss') where p_num='贵C-U8888' and ex_time is null;
 alter session set nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
+select round(to_number(ex_time-en_time)*24*60*60) from t_tempfee where p_num='贵C-U8888';
+select to_number(ex_time-en_time)*24*60*60 from t_tempfee where p_num='贵C-U8888';
+insert into t_TempFee values('20180324A10003','A1','贵C-U8888',to_date('2018-03-24 23:15:40','yyyy-mm-dd hh24:mi:ss'),to_date('2018-03-24 23:20:50','yyyy-mm-dd hh24:mi:ss'),0,'001'); 
+select round(to_number(ex_time-en_time)) from t_tempfee where p_num='贵C-U8888'and s_num ='20180324A10003';
+insert into t_TempFee values('20180409A10001','A1','贵C-U8888',to_date('2018-04-24 03:15:40','yyyy-mm-dd hh24:mi:ss'),to_date('2018-04-24 23:20:50','yyyy-mm-dd hh24:mi:ss'),0,'001'); 
+select * from t_infor_parking where today=to_date(sysdate);
+insert into t_infor_parking(today) values(to_date('2018-03-24','yyyy-mm-dd'));
+select en_num from t_infor_parking where today=to_date(sysdate);
+select count(*) from t_tempfee where  to_date(to_char(en_time,'yyyy-mm-dd'),'yyyy-mm-dd') = to_date('2018-04-24','yyyy/mm/dd');
+select * from (select id from t_parking where state='空' order by id desc) where rn < 2

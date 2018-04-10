@@ -7,7 +7,7 @@
 * @date 2018年3月30日
 * @version 1.0
 */
-package dao.imp;
+package pers.dao.imp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,8 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import dao.ManagerDao;
-import data.ConnOra;
+import pers.dao.ManagerDao;
+import pers.data.ConnOra;
 
 /**
  * @ClassName ManagerDaoImp

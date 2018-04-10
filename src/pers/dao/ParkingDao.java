@@ -13,5 +13,6 @@ public interface ParkingDao {
 	 * @return int
 	 */
 	public int parkingNum(String type);
-	
+	public String getPId(String state);
+	public boolean upTPS(String state,String id);
 }

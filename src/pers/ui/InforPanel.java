@@ -1,4 +1,4 @@
-package ui;
+package pers.ui;
 
 import java.awt.EventQueue;
 import java.awt.event.WindowEvent;

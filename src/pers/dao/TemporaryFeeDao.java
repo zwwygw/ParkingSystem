@@ -7,7 +7,7 @@
 * @date 2018年4月4日
 * @version 1.0
 */
-package dao;
+package pers.dao;
 
 /**
  * @ClassName TemporaryFeeDao

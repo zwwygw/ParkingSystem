@@ -25,7 +25,17 @@ public class MemberFee {
 	private String plate_num;// 车牌号
 	private Date eff_date;// 生效期
 	private Date ex_date;// 有效期
-
+	
+	public MemberFee(String name,String tel,String id,
+			           String s_n,String p_num,Date eff,Date ex) {
+		this.id = id;
+		this.name = name;
+		this.tel = tel;
+		this.serial_num = s_n;
+		this.plate_num = p_num;
+		this.eff_date = eff;
+		this.ex_date = ex;
+	}
 	/**
 	 * @Description 得到会员姓名
 	 * @return String
