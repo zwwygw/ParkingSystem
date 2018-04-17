@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login {
 
@@ -77,44 +79,18 @@ public class Login {
 		textField1_1.setColumns(10);
 
 		JButton button1_1 = new JButton("登录");
+		button1_1.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode()== KeyEvent.VK_ENTER) {
+					loginF();
+				}
+			}
+		});
 		button1_1.setFont(new Font("黑体", Font.PLAIN, 17));
 		button1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				boolean flag  = false;
-				int     power = 0;
-				String inputPassword = String.valueOf(passwordField1_1.getPassword());
-			
-				// System.out.println(passwordField.getPassword().toString());
-				HashMap<String, Object> hashMap = new HashMap<String, Object>();
-				ManagerDao mDao = null;
-				mDao = new ManagerDaoImp();
-				hashMap = mDao.check(textField1_1.getText(), inputPassword);
-				flag = (boolean) hashMap.get("flag");
-				power = (int) hashMap.get("power");
-				if (flag == true) {
-					window.frame.dispose();
-					String mid = textField1_1.getText();
-					ManagerUI mUi = null;
-					mUi = new ManagerUI(mid,power);
-					
-					mUi.setVisible(true);
-					InforParkingDao iDao = new InforParkingDaoImp();
-					java.util.Date  date0=new java.util.Date();
-					java.sql.Date  data1=new java.sql.Date(date0.getTime());				
-					ManagerUI.ennum= iDao.enOrexnum(data1, "en_num");
-					ManagerUI.exnum= iDao.enOrexnum(data1, "ex_num");
-					ManagerUI.fee = iDao.getfee(data1);
-					
-					InforParking iParking = new InforParking(ManagerUI.ennum,ManagerUI.exnum,ManagerUI.fee,mid);
-					System.out.println(Integer.toString(ManagerUI.ennum)); 
-					System.out.println(Integer.toString(ManagerUI.exnum)); 
-					System.out.println(mid); 
-					System.out.println(Float.toString(ManagerUI.fee)); 
-					iDao.inUpInfor(iParking);
-				}else {
-					JOptionPane.showMessageDialog(null, "密码或账号错误！", "提示", JOptionPane.ERROR_MESSAGE);
-					passwordField1_1.setText("");
-				}
+				loginF();
 			}
 		});
 		button1_1.setBounds(157, 206, 97, 27);
@@ -129,5 +105,42 @@ public class Login {
 		label1_2.setFont(new Font("黑体", Font.PLAIN, 18));
 		label1_2.setBounds(65, 147, 72, 18);
 		frame.getContentPane().add(label1_2);
+	}
+	
+	private void loginF() {
+		boolean flag  = false;
+		int     power = 0;
+		String inputPassword = String.valueOf(passwordField1_1.getPassword());
+	    // System.out.println(passwordField.getPassword().toString());
+		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		ManagerDao mDao = null;
+		mDao = new ManagerDaoImp();
+		hashMap = mDao.check(textField1_1.getText(), inputPassword);
+		flag = (boolean) hashMap.get("flag");
+		power = (int) hashMap.get("power");
+		if (flag == true) {
+			window.frame.dispose();
+			String mid = textField1_1.getText();
+			ManagerUI mUi = null;
+			mUi = new ManagerUI(mid,power);
+			
+			mUi.setVisible(true);
+			InforParkingDao iDao = new InforParkingDaoImp();
+			java.util.Date  date0=new java.util.Date();
+			java.sql.Date  data1=new java.sql.Date(date0.getTime());				
+			ManagerUI.ennum= iDao.enOrexnum(data1, "en_num");
+			ManagerUI.exnum= iDao.enOrexnum(data1, "ex_num");
+			ManagerUI.fee = iDao.getfee(data1);
+			
+			InforParking iParking = new InforParking(ManagerUI.ennum,ManagerUI.exnum,ManagerUI.fee,mid);
+			System.out.println(Integer.toString(ManagerUI.ennum)); 
+			System.out.println(Integer.toString(ManagerUI.exnum)); 
+			System.out.println(mid); 
+			System.out.println(Float.toString(ManagerUI.fee)); 
+			iDao.inUpInfor(iParking);
+		}else {
+			JOptionPane.showMessageDialog(null, "密码或账号错误！", "提示", JOptionPane.ERROR_MESSAGE);
+			passwordField1_1.setText("");
+		}
 	}
 }

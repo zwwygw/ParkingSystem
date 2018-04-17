@@ -20,16 +20,16 @@ public class ParkingDaoImp implements ParkingDao{
 	/* (non-Javadoc)
 	 * @see dao.ParkingDao#parkingNum(java.lang.String)
 	 */
-	public int parkingNum(String type) {
+	public int parkingNullNum(String type) {
 		int num = 0;
 		if(type.equals("all")) {
-			String sql = "select count(*) count from t_parking";
+			String sql = "select count(*) from t_parking where state='空'";
 			try {
 				Connection conn = ConnOra.connOracle();
 				PreparedStatement psmt = conn.prepareStatement(sql);
 				ResultSet rs = psmt.executeQuery();
 				while (rs.next()) {
-					num = rs.getInt("count");
+					num = rs.getInt(1);
 				}
 				psmt.close();
 				rs.close();
@@ -39,16 +39,40 @@ public class ParkingDaoImp implements ParkingDao{
 				e.printStackTrace();
 			}
 			
-		}else {
-			String sql = "select count(*) count from t_parking where type=?";
+		}else if(type.equals("临时")){
+			String sql = "select count(*) from t_parking where type='临时' and state='空'";
 			// Manager manager = null;
+			//System.out.println(num);
+			PreparedStatement psmt =null;
+			ResultSet rs = null;
 			try {
 				Connection conn = ConnOra.connOracle();
-				PreparedStatement psmt = conn.prepareStatement(sql);
-				psmt.setString(1, type);
-				ResultSet rs = psmt.executeQuery();
+				psmt = conn.prepareStatement(sql);
+			//	psmt.setString(1, type);
+			    rs = psmt.executeQuery();
 				while (rs.next()) {
-					num = rs.getInt("count");
+					num = rs.getInt(1);
+				}
+				psmt.close();
+				rs.close();
+				conn.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}else if(type.equals("会员")){
+			String sql = "select count(*) from t_parking where type='会员' and state='空'";
+			// Manager manager = null;
+			//System.out.println(num);
+			PreparedStatement psmt =null;
+			ResultSet rs = null;
+			try {
+				Connection conn = ConnOra.connOracle();
+				psmt = conn.prepareStatement(sql);
+			//	psmt.setString(1, type);
+			    rs = psmt.executeQuery();
+				while (rs.next()) {
+					num = rs.getInt(1);
 				}
 				psmt.close();
 				rs.close();

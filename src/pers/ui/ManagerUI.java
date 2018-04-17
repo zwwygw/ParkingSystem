@@ -45,6 +45,8 @@ public class ManagerUI extends JFrame {
 	public static float fee = 0;
 	public InforParking iParking = null;
 	private JPanel contentPane;
+	private String zhan = "占";
+	private String kong = "空";
 	private static InforPanel inforPanel;
 	private static boolean flag = false;//判断客户面板是否打开
 	//控制车辆进出界面
@@ -83,6 +85,7 @@ public class ManagerUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("unchecked")
 	public ManagerUI(String string, int power) {
 		try {
 			UIManager.setLookAndFeel(javax.swing.plaf.nimbus.NimbusLookAndFeel.class.getName());
@@ -108,11 +111,13 @@ public class ManagerUI extends JFrame {
 		JMenuItem menuItem1_1 = new JMenuItem("打开客户面板");
 		menuItem1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
 				if (!isFlag()) {
+					int num = 0;
 					ParkingDao pDao = null;
 					pDao = new ParkingDaoImp();
-					inforPanel = new InforPanel(string, pDao.parkingNum("临时"));
+					num = pDao.parkingNullNum("all");
+					System.out.println(num);
+					inforPanel = new InforPanel(string, num);
 					setFlag(true);
 					inforPanel.setVisible(isFlag());
 					JOptionPane.showMessageDialog(null, "客户面板已打开", "提示", JOptionPane.INFORMATION_MESSAGE);
@@ -169,7 +174,30 @@ public class ManagerUI extends JFrame {
 		button1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				TemporaryFeeDao tDao = new TemporaryDaoImp();
-				tDao.add(textField1_1.getText(), textField1_2.getText());
+				if(!textField1_2.equals("")) {
+					String pnum = textField1_1.getText();
+					String id= textField1_2.getText();
+					if(tDao.add(pnum, id)) {
+						ParkingDao pDao = new ParkingDaoImp();
+						pDao.upTPS(zhan, id);
+						textField1_1.setText("");
+						textField1_2.setText("");
+					}else {
+						
+					}
+					
+				}else {
+					ParkingDao pDao = new ParkingDaoImp();
+					String id=pDao.getPId(kong);
+					String pnum = textField1_1.getText();
+					if(tDao.add(pnum, id)) {
+						pDao.upTPS(zhan, id);
+						textField1_1.setText("");
+						textField1_2.setText("");
+					}else {
+						
+					}	
+				}	
 			}
 		});
 		button1_1.setFont(new Font("宋体", Font.PLAIN, 30));
@@ -177,6 +205,12 @@ public class ManagerUI extends JFrame {
 		panel1_1.add(button1_1);
 		
 		JButton button1_2 = new JButton("离  开");
+		button1_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			     String pnum = textField1_1.getText();
+			     
+			}
+		});
 		button1_2.setFont(new Font("宋体", Font.PLAIN, 30));
 		button1_2.setBounds(332, 232, 144, 37);
 		panel1_1.add(button1_2);
@@ -286,8 +320,22 @@ public class ManagerUI extends JFrame {
 			JComboBox comboBox3_1 = new JComboBox();
 			comboBox3_1.setBounds(190, 195, 86, 24);
 			panel1_3.add(comboBox3_1);
+			String[] p = {"超级管理员","普通管理员"};
+			for (String i : p) {
+				comboBox3_1.addItem(i);
+			}
 			
 			JButton button3_1 = new JButton("添加");
+			button3_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String  id = textField3_1.getText();
+					String inputPassword1 = String.valueOf(passwordField3_1.getPassword());
+					String inputPassword2 = String.valueOf(passwordField3_2.getPassword());
+					String name = textField3_2.getText();
+					String power = (String)comboBox3_1.getSelectedItem();
+					
+				}
+			});
 			button3_1.setBounds(89, 246, 113, 27);
 			panel1_3.add(button3_1);
 			
@@ -374,6 +422,11 @@ public class ManagerUI extends JFrame {
 		menuItem1_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_panel1.show(panel1, "p1_2");
+			}
+		});
+		menuItem2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cl_panel1.show(panel1, "p1_3");
 			}
 		});
 		//切换处理增减车位

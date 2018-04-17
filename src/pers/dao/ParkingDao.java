@@ -8,11 +8,11 @@ package pers.dao;
 public interface ParkingDao {
 
 	/**
-	 * @Description 得到相应类型车位数
+	 * @Description 得到相应类型空车位数
 	 * @param type
 	 * @return int
 	 */
-	public int parkingNum(String type);
+	public int parkingNullNum(String type);
 	public String getPId(String state);
 	public boolean upTPS(String state,String id);
 }
