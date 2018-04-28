@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import pers.data.ConnOra;
 import pers.dao.ParkingDao;
 
@@ -135,5 +137,69 @@ public class ParkingDaoImp implements ParkingDao{
 			e.printStackTrace();
 		}
 		return flag;
+	}
+
+	/* (non-Javadoc)
+	 * @see pers.dao.ParkingDao#checkP(java.lang.String)
+	 */
+	@Override
+	public boolean checkState(String id) {
+		boolean flag = false;
+		String state = null;
+		String sql = "select state from t_parking where id=?";
+		try {
+			Connection conn = ConnOra.connOracle();
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				state = rs.getString("state");
+				if(state.equals(null)) {
+					JOptionPane.showMessageDialog(null, "该车位不存在！", "警告", JOptionPane.WARNING_MESSAGE);
+				}else if(state.equals("空")){
+					flag = true;
+				}
+			}
+			psmt.close();
+			rs.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("flag"+flag);
+		return flag;
+	}
+
+	/* (non-Javadoc)
+	 * @see pers.dao.ParkingDao#getPrice(java.lang.String)
+	 */
+	@Override
+	public float getPrice(String id,int n) {
+		// TODO Auto-generated method stub
+		float price=0;
+		float t_price=0;		
+		float m_price=0;		
+		String sql = "select m_price,t_price from t_parking where id=?";
+		try {
+			Connection conn = ConnOra.connOracle();
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				m_price=rs.getFloat("m_price");
+				t_price=rs.getFloat("t_price");
+			}
+			psmt.close();
+			rs.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(n==0) {
+			price = t_price;
+		}else {
+			price = m_price;
+		}
+		return price;
 	}
 }

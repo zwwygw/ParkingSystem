@@ -1,6 +1,8 @@
 package pers.dao;
 
 import java.util.HashMap;
+
+import pers.table.Manager;
 /**
  * @ClassName ManagerDao
  * @Description 对管理员的数据操作的接口
@@ -21,4 +23,16 @@ public interface ManagerDao {
 	 * @return int
 	 */
 	public int judgeP(String tf);
+	/**
+	 * @Description 增加员工
+	 * @param manager
+	 * @return boolean
+	 */
+	public boolean add(Manager manager);
+	/**
+	 * @Description 删除员工
+	 * @param id
+	 * @return boolean
+	 */
+	public boolean delManager(String id);
 }

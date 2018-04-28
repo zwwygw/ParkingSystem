@@ -21,15 +21,21 @@ import pers.table.InforParking;
  */
 public interface InforParkingDao {
 	/**
-	 * @Description 得到当日车辆进出数
+	 * @Description 得到相应的日常统计
+	 * @param time
+	 * @return InforParking
+	 */
+	public InforParking getIOP(Date time);	
+	/**
+	 * @Description 更新当日车辆进出数
 	 * @param time
 	 * @param type
-	 * @return int
+	 * @param enorexnum
+	 * @return boolean
 	 */
-	public int enOrexnum(Date time,String type);
-	public float getfee(Date time);
+	public boolean upEnOrEx(Date time,String type,int enorexnum);
 	/**
-	 * @Description TODO
+	 * @Description 插入或更新车位日常信息表
 	 * @param iParking
 	 * @return boolean
 	 */

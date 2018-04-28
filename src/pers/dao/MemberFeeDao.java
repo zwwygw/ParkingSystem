@@ -18,11 +18,11 @@ package pers.dao;
 public interface MemberFeeDao {
 	
 	/**
-	 * @Description 增加流水
+	 * @Description 增加会员流水
 	 * @param pnum //车牌号
 	 * @param id //车位编号
 	 * @return boolean //增加成功与否
 	 */
 	public boolean add(String pnum,String id);
-	
+
 }

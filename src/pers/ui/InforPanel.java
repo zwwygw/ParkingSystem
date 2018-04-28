@@ -20,7 +20,7 @@ public class InforPanel extends JFrame implements Runnable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JLabel label_3;
+	protected  static JLabel label_3;
 	private static JLabel label_5;
 	private String DEFAULT_TIME_FORMAT = "HH:mm:ss";
 	private int ONE_SECOND = 1000;
@@ -77,26 +77,8 @@ public class InforPanel extends JFrame implements Runnable {
 		label_5.setBounds(90, 75, 72, 18);
 		contentPane.add(label_5);
 
-		System.out.println("s");
 	}
 
-	public synchronized static void kaishi() {
-		try {
-			while (true) {
-				Date d = new Date();
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				String s = dateFormat.format(d);
-				// System.out.println(s);
-				label_5.setText(s);
-
-				Thread.sleep(1000);
-			}
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-	}
 
 	protected void processWindowEvent(WindowEvent e) {
 		// 这里需要对进来的WindowEvent进行判断，因为，不仅会有窗口关闭的WindowEvent进来，还可能有其他的WindowEvent进来
@@ -105,7 +87,7 @@ public class InforPanel extends JFrame implements Runnable {
 			if (option == JOptionPane.OK_OPTION) {
 				super.dispose();
 				
-				ManagerUI.setFlag(false);
+				ManagerUI.setIPFlag(false);
 			} else {
 				// 用户选择不退出本程序，因此可以继续留在本窗口
 			}
@@ -126,7 +108,6 @@ public class InforPanel extends JFrame implements Runnable {
 			while (true) {
 				SimpleDateFormat dateFormatter = new SimpleDateFormat(DEFAULT_TIME_FORMAT);
 				label_5.setText(dateFormatter.format(Calendar.getInstance().getTime()));
-
 				Thread.sleep(ONE_SECOND);
 			}
 		} catch (Exception e) {

@@ -25,9 +25,22 @@ public interface TemporaryFeeDao {
 	public boolean add(String pnum,String id);
 	/**
 	 * @Description 车辆离开完善流水信息
-	 * @param pnum 车牌号
-	 * @return boolean 完善成功与否
+	 * @param pnum
+	 * @param mid 
+	 * @return boolean
 	 */
-	public boolean comp(String pnum);
+	public boolean comp(String pnum,String mid,float price);
+	/**
+	 * @Description 得到车位编号
+	 * @param pnum
+	 * @return boolean
+	 */
+	public String getPId(String pnum);
 	
+	/**
+	 * @Description 得到进入时间
+	 * @param pnum
+	 * @return String
+	 */
+	public java.util.Date getEnT(String pnum);
 }

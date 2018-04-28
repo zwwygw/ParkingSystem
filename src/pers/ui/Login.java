@@ -1,3 +1,26 @@
+/**  
+ *                    _ooOoo_  
+ *                   o8888888o  
+ *                   88" . "88  
+ *                   (| -_- |)  
+ *                    O\ = /O  
+ *                ____/`---'\____  
+ *              .   ' \\| |// `.  
+ *               / \\||| : |||// \  
+ *             / _||||| -:- |||||- \  
+ *               | | \\\ - /// | |  
+ *             | \_| ''\---/'' | |  
+ *              \ .-\__ `-` ___/-. /  
+ *           ___`. .' /--.--\ `. . __  
+ *        ."" '< `.___\_<|>_/___.' >'"".  
+ *       | | : `- \`.;`\ _ /`;.`/ - ` : | |  
+ *         \ \ `-. \_ __\ /__ _/ .-` / /  
+ * ======`-.____`-.___\_____/___.-`____.-'======  
+ *                    `=---='  
+ *  
+ * .............................................  
+ *          佛祖保佑             永无BUG  
+ */  
 package pers.ui;
 
 
@@ -124,20 +147,22 @@ public class Login {
 			ManagerUI mUi = null;
 			mUi = new ManagerUI(mid,power);
 			
-			mUi.setVisible(true);
+			InforParking iParking0 = null;
 			InforParkingDao iDao = new InforParkingDaoImp();
 			java.util.Date  date0=new java.util.Date();
-			java.sql.Date  data1=new java.sql.Date(date0.getTime());				
-			ManagerUI.ennum= iDao.enOrexnum(data1, "en_num");
-			ManagerUI.exnum= iDao.enOrexnum(data1, "ex_num");
-			ManagerUI.fee = iDao.getfee(data1);
+			java.sql.Date  data1=new java.sql.Date(date0.getTime());
+			iParking0 = iDao.getIOP(data1);
+			ManagerUI.ennum = iParking0.getEn_num();
+			ManagerUI.exnum = iParking0.getEx_num();
+			ManagerUI.fee   = iParking0.getFee();
 			
-			InforParking iParking = new InforParking(ManagerUI.ennum,ManagerUI.exnum,ManagerUI.fee,mid);
-			System.out.println(Integer.toString(ManagerUI.ennum)); 
 			System.out.println(Integer.toString(ManagerUI.exnum)); 
-			System.out.println(mid); 
 			System.out.println(Float.toString(ManagerUI.fee)); 
+			InforParking iParking = new InforParking(ManagerUI.ennum,ManagerUI.exnum,ManagerUI.fee,mid);
+			System.out.println(ManagerUI.fee); 
 			iDao.inUpInfor(iParking);
+			System.out.println("初始化成功!"); 
+			mUi.setVisible(true);
 		}else {
 			JOptionPane.showMessageDialog(null, "密码或账号错误！", "提示", JOptionPane.ERROR_MESSAGE);
 			passwordField1_1.setText("");

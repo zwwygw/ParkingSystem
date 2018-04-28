@@ -20,6 +20,7 @@ insert into t_manager values('001','123456','李子明',1);
 alter table t_parking
  add   constraint c_p check((state='空'or state='占')and (type='临时'or type ='会员'));
 alter table t_parking drop constraint c_p;
+alter table t_MemberFee drop column (name,tel);
 col s_num format a10
 col id format a10
 col m_id format a10
@@ -34,7 +35,7 @@ select count(*)count from t_parking where type='临时';
 2018-03-19 00:02:21
 insert into t_TempFee values(?,?,?,?,?,?,?);
 insert into t_MemberFee values(?,?,?,?,?,?,?,?,?);
-update t_TempFee set ex_time=? where p_num = ? and ex_time=null;
+update t_TempFee set ex_time=? where p_num = ? and ex_time is null;
 insert into t_TempFee values('20180324A10001','A1','贵C-U8888',to_date(sysdate),null,0,'001');	
 insert into t_TempFee values('20180324A10001','A1','贵C-U8888',current_timestamp(5),null,0,'001');	
 insert from t_TempFee where id='A1';
@@ -52,4 +53,7 @@ select en_num from t_infor_parking where today=to_date(sysdate);
 select count(*) from t_tempfee where  to_date(to_char(en_time,'yyyy-mm-dd'),'yyyy-mm-dd') = to_date('2018-04-24','yyyy/mm/dd');
 select * from (select id from t_parking where state='空' order by id) where rownum<2;
 select count(rowid)count from t_parking where type='临时';
-delete t_parking
+delete t_parking;
+select state from t_parking where id='A1';
+select isnull((select top(1) from t_parking where id='B1'), 0);
+select en_num from t_infor_parking where today=

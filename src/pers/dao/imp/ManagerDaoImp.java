@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 import pers.dao.ManagerDao;
 import pers.data.ConnOra;
+import pers.table.Manager;
 
 /**
  * @ClassName ManagerDaoImp
@@ -32,7 +33,6 @@ public class ManagerDaoImp implements ManagerDao {
 	@Override
 	public HashMap<String, Object> check(String tf, String pf) {
 		boolean flag = false;
-		System.out.println(pf);
 		String sql = "select * from t_manager where id=?";
 		// Manager manager = null;
 		String id = null;
@@ -59,7 +59,6 @@ public class ManagerDaoImp implements ManagerDao {
 		if (tf.equals(id) && pf.equals(pwd)) {
 			flag = true;
 		}
-		System.out.println(flag);
 		hMap.put("flag", flag);
 		hMap.put("power",power);
 		return hMap;
@@ -89,6 +88,55 @@ public class ManagerDaoImp implements ManagerDao {
 		}
 
 		return power;
+	}
+
+	/* (non-Javadoc)
+	 * @see pers.dao.ManagerDao#add(pers.table.Manager)
+	 */
+	@Override
+	public boolean add(Manager manager) {
+		boolean flag = false;
+		String sql = "insert into t_manager values(?,?,?,?)";
+		try {
+			Connection connection = ConnOra.connOracle();
+			PreparedStatement psmt = connection.prepareStatement(sql);
+			psmt.setString(1, manager.getId());
+			psmt.setString(2, manager.getPwd());
+			psmt.setString(3, manager.getName());
+			psmt.setInt(4, manager.getPower());
+			int rs = psmt.executeUpdate();
+			if(rs == 1) {
+				flag = true;
+			}
+			psmt.close();
+			connection.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return flag;
+	}
+
+	/* (non-Javadoc)
+	 * @see pers.dao.ManagerDao#delManager(java.lang.String)
+	 */
+	@Override
+	public boolean delManager(String id) {
+		boolean flag = false;
+		String sql = "delete from t_manager where id=?";
+		try {
+			Connection conn = ConnOra.connOracle();
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			if (psmt.executeUpdate() > 0) {
+				flag = true;
+			}
+			psmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flag;
 	}
  
 }

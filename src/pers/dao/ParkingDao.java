@@ -13,6 +13,30 @@ public interface ParkingDao {
 	 * @return int
 	 */
 	public int parkingNullNum(String type);
+	/**
+	 * @Description 得到相应状态的第一个车位编号
+	 * @param state
+	 * @return String
+	 */
 	public String getPId(String state);
+	/**
+	 * @Description 更新t_parking表车位的状态state
+	 * @param state
+	 * @param id
+	 * @return boolean
+	 */
 	public boolean upTPS(String state,String id);
+	/**
+	 * @Description 车位状态是否为空
+	 * @param id
+	 * @return boolean
+	 */
+	public boolean checkState(String id);
+	
+	/**
+	 * @Description 得到单价(n=0为临时）
+	 * @param id
+	 * @return float
+	 */
+	public float getPrice(String id,int n);
 }
