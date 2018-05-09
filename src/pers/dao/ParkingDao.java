@@ -1,4 +1,7 @@
 package pers.dao;
+
+import pers.table.Parking;
+
 /**
  * @ClassName ParkingDao
  * @Description 对车位的数据操作接口
@@ -14,7 +17,7 @@ public interface ParkingDao {
 	 */
 	public int parkingNullNum(String type);
 	/**
-	 * @Description 得到相应状态的第一个车位编号
+	 * @Description 得到临时车位相应状态的第一个车位编号
 	 * @param state
 	 * @return String
 	 */
@@ -39,4 +42,8 @@ public interface ParkingDao {
 	 * @return float
 	 */
 	public float getPrice(String id,int n);
+	public boolean addParking(Parking parking);
+    public boolean delParking(String id);
+	public boolean upTPT(String type,String id);
+	public boolean checkM(String id);
 }

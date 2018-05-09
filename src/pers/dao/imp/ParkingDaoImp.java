@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import pers.data.ConnOra;
+import pers.table.Parking;
 import pers.dao.ParkingDao;
 
 
@@ -93,7 +94,7 @@ public class ParkingDaoImp implements ParkingDao{
 	@Override
 	public String getPId(String state) {
 		String id = null;
-		String sql = "select * from (select id from t_parking where state=? order by id) where rownum<2";
+		String sql = "select * from (select id from t_parking where state=? and type='临时' order by id) where rownum<2";
 		// Manager manager = null;
 		try {
 			Connection conn = ConnOra.connOracle();
@@ -107,7 +108,6 @@ public class ParkingDaoImp implements ParkingDao{
 			rs.close();
 			conn.close();
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
 		}
 		return id;
@@ -201,5 +201,116 @@ public class ParkingDaoImp implements ParkingDao{
 			price = m_price;
 		}
 		return price;
+	}
+
+	/* (non-Javadoc)
+	 * @see pers.dao.ParkingDao#addParking(java.lang.String, float, float)
+	 */
+	@Override
+	public boolean addParking(Parking parking) {
+		// TODO Auto-generated method stub
+		boolean flag = false;
+		String sql="insert into t_parking values(?,?,?,?,?)";
+		try {
+			Connection conn = ConnOra.connOracle();
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, parking.getId());
+			psmt.setString(2, parking.getState());
+			psmt.setString(3, parking.getType());
+			psmt.setFloat(4, parking.getT_price());
+			psmt.setFloat(5, parking.getM_price());
+			int rs = psmt.executeUpdate();
+			if(rs>0) {
+				flag = true;
+			}
+			conn.close();
+			psmt.close();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	/* (non-Javadoc)
+	 * @see pers.dao.ParkingDao#delParking(java.lang.String)
+	 */
+	@Override
+	public boolean delParking(String id) {
+		boolean flag = false;
+		String sql = "delete t_parking where id=?";
+		try {
+			Connection conn = ConnOra.connOracle();
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			int rs = psmt.executeUpdate();
+			if(rs>0) {
+				flag = true;
+			}
+			psmt.close();
+			conn.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return flag;
+	}
+
+	/* (non-Javadoc)
+	 * @see pers.dao.ParkingDao#upTPT(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean upTPT(String type, String id) {
+		boolean flag=false;
+		String sql = "update t_parking set type=? where id=?";
+		// Manager manager = null;
+		if(checkState(id)) {
+			try {
+				Connection conn = ConnOra.connOracle();
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				psmt.setString(1, type);
+				psmt.setString(2, id);
+				int rs = psmt.executeUpdate();
+				if(rs==1) {
+					flag = true;
+				}
+				psmt.close();
+				conn.close();
+			} catch (SQLException e) {			
+				e.printStackTrace();
+			}
+		}else {
+			JOptionPane.showMessageDialog(null, "该车位已被占！", "警告", JOptionPane.WARNING_MESSAGE);
+		}
+		return flag;
+	}
+
+	/* (non-Javadoc)
+	 * @see pers.dao.ParkingDao#checkM(java.lang.String)
+	 */
+	@Override
+	public boolean checkM(String id) {
+		String type="";
+		String state="";
+		boolean flag = false;
+		String sql = "select type,state from t_parking where id=?";
+		try {
+			Connection conn = ConnOra.connOracle();
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				type = rs.getString("type");
+				state=rs.getString("state");
+			}
+			if(type.equals("临时") && state.equals("空")) {
+				flag=true;
+			}
+			psmt.close();
+			rs.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
 	}
 }

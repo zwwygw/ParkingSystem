@@ -35,4 +35,16 @@ public interface ManagerDao {
 	 * @return boolean
 	 */
 	public boolean delManager(String id);
+	/**
+	 * @Description 查询员工
+	 * @param id
+	 * @return String
+	 */
+	public String findManager(String id);
+    /**
+     * @Description 改变权限
+     * @param id
+     * @return boolean
+     */
+    public boolean upMP(String id,int power);
 }

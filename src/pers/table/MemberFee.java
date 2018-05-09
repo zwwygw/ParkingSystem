@@ -9,7 +9,7 @@
 */
 package pers.table;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * @ClassName MemberFee
@@ -18,58 +18,44 @@ import java.util.Date;
  * @date   2018年4月4日下午4:34:08
  */
 public class MemberFee {
-	private String name;// 会员姓名
-	private String tel;// 会员电话
+
 	private String id;// 车位编号
 	private String serial_num;// 流水号
 	private String plate_num;// 车牌号
 	private Date eff_date;// 生效期
 	private Date ex_date;// 有效期
+	private float fee;//收费
+	private String mid;//收费员
 	
-	public MemberFee(String name,String tel,String id,
+	public float getFee() {
+		return fee;
+	}
+	public void setFee(float fee) {
+		this.fee = fee;
+	}
+	public String getMid() {
+		return mid;
+	}
+	public void setMid(String mid) {
+		this.mid = mid;
+	}
+	public MemberFee(String id,String m_id, float fee,
 			           String s_n,String p_num,Date eff,Date ex) {
-		this.id = id;
-		this.name = name;
-		this.tel = tel;
-		this.serial_num = s_n;
-		this.plate_num = p_num;
-		this.eff_date = eff;
+		this.id  = id;
+		this.mid = m_id;
+		this.fee = fee;
 		this.ex_date = ex;
+		this.eff_date = eff;
+		this.plate_num = p_num;
+		this.serial_num = s_n;	
 	}
-	/**
-	 * @Description 得到会员姓名
-	 * @return String
-	 */
-	public String getName() {
-		return name;
+	public MemberFee(String id,String m_id,String p_num,Date eff,Date ex) {
+		this.id  = id;
+		this.mid = m_id;
+		this.ex_date = ex;
+		this.eff_date = eff;
+		this.plate_num = p_num;
 	}
-
-	/**
-	 * @Description 设置会员的姓名
-	 * @param name 
-	 * @return void
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @Description 得到会员的联系方式
-	 * @return String
-	 */
-	public String getTel() {
-		return tel;
-	}
-
-	/**
-	 * @Description 设置会员的联系方式
-	 * @param tel 
-	 * @return void
-	 */
-	public void setTel(String tel) {
-		this.tel = tel;
-	}
-
 	/**
 	 * @Description 得到会员车位编号
 	 * @return String

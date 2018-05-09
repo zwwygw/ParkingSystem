@@ -9,6 +9,11 @@
 */
 package pers.dao;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
+import pers.table.TemporaryFee;
+
 /**
  * @ClassName TemporaryFeeDao
  * @Description 临时表收费数据操作接口
@@ -29,7 +34,7 @@ public interface TemporaryFeeDao {
 	 * @param mid 
 	 * @return boolean
 	 */
-	public boolean comp(String pnum,String mid,float price);
+	public float comp(String pnum,String mid,float price);
 	/**
 	 * @Description 得到车位编号
 	 * @param pnum
@@ -43,4 +48,17 @@ public interface TemporaryFeeDao {
 	 * @return String
 	 */
 	public java.util.Date getEnT(String pnum);
+	
+	/**
+	 * @Description 查询流水
+	 * @param page
+	 * @return Vector<TemporaryFee>
+	 */
+	public Vector<TemporaryFee> queryT(int page);
+	
+	/**
+	 * @Description 得到流水数目
+	 * @return int
+	 */
+	public int count();
 }

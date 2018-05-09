@@ -9,6 +9,8 @@
 */
 package pers.dao;
 
+import pers.table.MemberFee;
+
 /**
  * @ClassName MemberFeeDao
  * @Description 会员收费表的数据操纵接口
@@ -16,13 +18,11 @@ package pers.dao;
  * @date   2018年4月4日下午2:57:53
  */
 public interface MemberFeeDao {
-	
 	/**
 	 * @Description 增加会员流水
-	 * @param pnum //车牌号
-	 * @param id //车位编号
-	 * @return boolean //增加成功与否
+	 * @param mFee
+	 * @return boolean
 	 */
-	public boolean add(String pnum,String id);
+	public int add(MemberFee mFee);
 
 }

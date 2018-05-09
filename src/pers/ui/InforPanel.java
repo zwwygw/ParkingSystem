@@ -8,10 +8,14 @@ import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import java.awt.Font;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
 public class InforPanel extends JFrame implements Runnable {
 
@@ -47,35 +51,53 @@ public class InforPanel extends JFrame implements Runnable {
 	 * Create the frame.
 	 */
 	public InforPanel(String id, int num) {
+		try {
+			UIManager.setLookAndFeel(javax.swing.plaf.nimbus.NimbusLookAndFeel.class.getName());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 493, 322);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JLabel label = new JLabel("收费员  ：");
-		label.setBounds(14, 13, 98, 18);
+		label.setFont(new Font("宋体", Font.PLAIN, 20));
+		label.setBounds(14, 30, 137, 33);
 		contentPane.add(label);
 
 		JLabel label_1 = new JLabel(id);
-		label_1.setBounds(90, 13, 72, 18);
+		label_1.setFont(new Font("宋体", Font.PLAIN, 20));
+		label_1.setBounds(125, 31, 116, 31);
 		contentPane.add(label_1);
 
 		JLabel label_2 = new JLabel("剩余车位：");
-		label_2.setBounds(14, 44, 98, 18);
+		label_2.setFont(new Font("宋体", Font.PLAIN, 20));
+		label_2.setBounds(14, 92, 137, 33);
 		contentPane.add(label_2);
 		label_3 = new JLabel(Integer.toString(num));
-		label_3.setBounds(90, 44, 72, 18);
+		label_3.setFont(new Font("宋体", Font.PLAIN, 20));
+		label_3.setBounds(125, 101, 72, 18);
 		contentPane.add(label_3);
 
 		JLabel label_4 = new JLabel("当前时间：");
-		label_4.setBounds(14, 75, 98, 18);
+		label_4.setFont(new Font("宋体", Font.PLAIN, 20));
+		label_4.setBounds(14, 158, 116, 18);
 		contentPane.add(label_4);
 
 		label_5 = new JLabel(" ");
-		label_5.setBounds(90, 75, 72, 18);
+		label_5.setFont(new Font("宋体", Font.PLAIN, 18));
+		label_5.setBounds(125, 158, 129, 20);
 		contentPane.add(label_5);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon(InforPanel.class.getResource("/pers/2.jpg")));
+		lblNewLabel.setBounds(74, 0, 401, 275);
+		contentPane.add(lblNewLabel);
 
 	}
 
@@ -111,7 +133,8 @@ public class InforPanel extends JFrame implements Runnable {
 				Thread.sleep(ONE_SECOND);
 			}
 		} catch (Exception e) {
-			label_5.setText("Error!!!");
+		//	label_5.setText("Error!!!");
+			e.printStackTrace();
 		}
 	}
 
