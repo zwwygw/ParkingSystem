@@ -64,3 +64,4 @@ delete t_parking;
 select state from t_parking where id='A1';
 select isnull((select top(1) from t_parking where id='B1'), 0);
 select en_num from t_infor_parking where today= to_date(sysdate);
+select * from(select a.*,ROWNUM rn from(select * from t_TempFee order by s_num asc) a where ROWNUM<=1) where rn>1
